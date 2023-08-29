@@ -33,6 +33,16 @@ const llenarCarton = () => {
   console.log("Carton lleno");
 };
 
+// Vaciar carton
+
+const vaciarCarton = () => {
+  const casillas = document.querySelectorAll(".celda");
+  casillas.forEach((casilla) => {
+    casilla.style.backgroundColor = "white";
+  });
+  console.log("Carton vacio");
+};
+
 // Boton nuevo carton
 
 let btnNuevoCarton = document.getElementById("nuevo-carton");
@@ -43,5 +53,6 @@ const nuevoCarton = () => {
 };
 
 btnNuevoCarton.addEventListener("click", () => {
+  vaciarCarton();
   nuevoCarton();
 });
