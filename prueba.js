@@ -27,3 +27,7 @@ switch (columna) {
     Math.floor(Math.random() * 11) + 80;
     break;
 }
+
+if (casilla.innerText !== "") {
+  casilla.classList.add("active");
+}

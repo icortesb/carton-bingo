@@ -4,6 +4,8 @@ const selectorColumna = () => {
   return Math.floor(Math.random() * 9) + 1;
 };
 
+// Llenar casilla
+
 const llenarCasilla = (num_fila) => {
   const columna = selectorColumna();
   const fila = document.querySelector(`.fila${num_fila}`);
@@ -13,6 +15,7 @@ const llenarCasilla = (num_fila) => {
 
   if (casilla.innerText === "") {
     casilla.innerText = selectorNumero(columna);
+    casilla.classList.add("active");
   } else {
     llenarCasilla(num_fila);
   }

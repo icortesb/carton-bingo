@@ -91,3 +91,9 @@ body {
 .nuevo-carton:active {
   transform: translate(1px, 1px);
 }
+
+/* If active */
+
+/* .active {
+  background-color: violet;
+} */
