@@ -37,6 +37,7 @@ const vaciarCarton = () => {
   const casillas = document.querySelectorAll(".celda");
   casillas.forEach((casilla) => {
     casilla.innerText = "";
+    casilla.classList.remove("active");
   });
 };
 
@@ -102,3 +103,4 @@ const selectorNumero = (columna) => {
 // Inicia con un carton generado, y cuando se recarga la pagina se vuelve a generar otro.
 
 nuevoCarton();
+// Aplicar estilos por defecto al recargar la pagina

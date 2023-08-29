@@ -41,19 +41,11 @@ body {
   grid-area: fila3;
 }
 
-.fila.fila1 .celda:nth-child(2n-1),
-.fila.fila3 .celda:nth-child(2n-1) {
-  background-color: #b1f2ff;
-}
-
-.fila.fila2 .celda:nth-child(2n) {
-  background-color: #b1f2ff;
-}
-
 .celda {
   width: 100%;
-  border: 1px solid black;
+  margin: 1px;
   background-color: #d8f9ff;
+  background-color: #292b2c;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -61,11 +53,9 @@ body {
   font-weight: 500;
 }
 
-.celda:hover,
-.fila.fila1 .celda:nth-child(2n-1):hover,
-.fila.fila3 .celda:nth-child(2n-1):hover,
-.fila.fila2 .celda:nth-child(2n):hover {
+.celda.active:hover {
   background-color: #198754d1;
+  color: #f0f0f0;
 }
 
 /* Botonera */
@@ -94,6 +84,6 @@ body {
 
 /* If active */
 
-/* .active {
-  background-color: violet;
-} */
+.celda.active {
+  background-color: #f0f0f0;
+}
