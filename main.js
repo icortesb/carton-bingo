@@ -17,8 +17,6 @@ const llenarCasilla = (num_fila) => {
     llenarCasilla(num_fila);
   }
   console.log(`Fila: ${num_fila} Columna: ${columna}`);
-
-  // Random depende num de columna
 };
 const llenarCarton = () => {
   llenarCasilla(1);
@@ -98,3 +96,6 @@ const selectorNumero = (columna) => {
   }
 };
 
+// Inicia con un carton generado, y cuando se recarga la pagina se vuelve a generar otro.
+
+nuevoCarton();
