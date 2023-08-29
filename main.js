@@ -1,19 +1,47 @@
-const nuevoCarton = document.getElementById("nuevo-carton");
+// Seleccionar la columna
 
-const fila1 = document.querySelector(".fila1");
-const tercerCelda = fila1.children[2];
+const selectorColuma = () => {
+  return Math.floor(Math.random() * 9) + 1;
+};
 
-nuevoCarton.addEventListener("click", () => {
-  tercerCelda.innerHTML = "";
-  const parrafo = document.createElement("p");
-  parrafo.textContent = "24";
-  tercerCelda.appendChild(parrafo);
-  console.log("Nuevo carton");
+const llenarCasilla = (num_fila) => {
+  const columna = selectorColuma();
+  const fila = document.querySelector(`.fila${num_fila}`);
+  const casilla = fila.children[columna - 1];
+  // Si la casilla no esta con background rojo, se llena. Sino se vuelve a intentar.
+  if (casilla.style.backgroundColor !== "red") {
+    casilla.style.backgroundColor = "red";
+  } else {
+    llenarCasilla(num_fila);
+  }
+  console.log(`Fila: ${num_fila} Columna: ${columna}`);
+
+  // Random depende num de columna
+};
+
+const prueba = document.getElementById("prueba");
+prueba.addEventListener("click", () => {
+  llenarCasilla(1);
+  llenarCasilla(2);
+  llenarCasilla(3);
 });
 
-// Random
+const llenarCarton = () => {
+  llenarCasilla(1);
+  llenarCasilla(2);
+  llenarCasilla(3);
+  console.log("Carton lleno");
+};
 
-// Seleccionar la columna
-const selectorColumna = Math.floor(Math.random() * 9) + 1;
+// Boton nuevo carton
 
-console.log(selectorColumna);
+let btnNuevoCarton = document.getElementById("nuevo-carton");
+const nuevoCarton = () => {
+  for (let i = 1; i <= 5; i++) {
+    llenarCarton();
+  }
+};
+
+btnNuevoCarton.addEventListener("click", () => {
+  nuevoCarton();
+});
