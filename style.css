@@ -84,6 +84,12 @@ body {
 
 /* If active */
 
-.celda.active {
+.active {
   background-color: #f0f0f0;
+  cursor: pointer;
+}
+
+.pintada {
+  background-color: #198754d1;
+  color: #f0f0f0;
 }

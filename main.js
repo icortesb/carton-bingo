@@ -4,9 +4,9 @@ const selectorColumna = () => {
   return Math.floor(Math.random() * 9) + 1;
 };
 
-// Llenar casilla
+// Llenar fila
 
-const llenarCasilla = (num_fila) => {
+const llenarFila = (num_fila) => {
   const columna = selectorColumna();
   const fila = document.querySelector(`.fila${num_fila}`);
   const casilla = fila.children[columna - 1];
@@ -17,43 +17,61 @@ const llenarCasilla = (num_fila) => {
     casilla.innerText = selectorNumero(columna);
     casilla.classList.add("active");
   } else {
-    llenarCasilla(num_fila);
+    llenarFila(num_fila);
   }
-  console.log(`Fila: ${num_fila} Columna: ${columna}`);
 };
 const llenarCarton = () => {
-  llenarCasilla(1);
-  llenarCasilla(2);
-  llenarCasilla(3);
+  llenarFila(1);
+  llenarFila(2);
+  llenarFila(3);
 };
 
-// Boton nuevo carton
+// Click en casilla activa para pintarla
 
-let btnNuevoCarton = document.getElementById("nuevo-carton");
+const casillaActiva = document.querySelectorAll(".active");
+
+const pintarCasilla = (casilla) => {
+  if (casilla.innerText !== "") {
+    casilla.classList.add("pintada");
+  }
+};
+
+casillaActiva.forEach((casilla) => {
+  casilla.addEventListener("click", () => {
+    pintarCasilla(casilla);
+  });
+});
 
 // Vaciar carton
-
-const vaciarCarton = () => {
-  const casillas = document.querySelectorAll(".celda");
-  casillas.forEach((casilla) => {
-    casilla.innerText = "";
-    casilla.classList.remove("active");
-  });
-};
 
 const nuevoCarton = () => {
   numeros = [];
   for (let i = 1; i <= 5; i++) {
     llenarCarton();
   }
+
+  const casillasActivas = document.querySelectorAll(".active");
+  casillasActivas.forEach((casilla) => {
+    // Primero, removemos cualquier evento de clic existente
+    casilla.removeEventListener("click", pintarCasilla);
+
+    // Luego, verificamos si la casilla está vacía antes de agregar el nuevo evento
+    if (casilla.innerText !== "") {
+      casilla.addEventListener("click", () => {
+        pintarCasilla(casilla);
+      });
+    }
+  });
 };
 
-btnNuevoCarton.addEventListener("click", () => {
-  vaciarCarton();
-  nuevoCarton();
-  console.clear();
-  console.log("Nuevo carton generado");
-});
+const vaciarCarton = () => {
+  const casillas = document.querySelectorAll(".celda");
+  casillas.forEach((casilla) => {
+    casilla.innerText = "";
+    casilla.classList.remove("active", "pintada");
+    casilla.removeEventListener("click", pintarCasilla);
+  });
+};
 
 // Generador de numeros a colocar
 
@@ -103,4 +121,13 @@ const selectorNumero = (columna) => {
 // Inicia con un carton generado, y cuando se recarga la pagina se vuelve a generar otro.
 
 nuevoCarton();
-// Aplicar estilos por defecto al recargar la pagina
+
+// Boton nuevo carton
+
+let btnNuevoCarton = document.getElementById("nuevo-carton");
+
+btnNuevoCarton.addEventListener("click", () => {
+  console.log("Click");
+  vaciarCarton();
+  nuevoCarton();
+});
