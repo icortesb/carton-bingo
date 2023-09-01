@@ -47,7 +47,7 @@ const selectorNumero = (columna) => {
     console.log("Salio el 90");
     selectorNumero();
   } else if (numeros.includes(numero)) {
-    return numero + 1;
+    return numero + 1; // CAMBIAR porque si numero + 1 no se puede usar igual lo coloca. Cambiar la logia en las funciones especificas de fila no aca.
   } else {
     // Si el número es nuevo, lo almacenamos en el array y lo devolvemos
     numeros.push(numero);
