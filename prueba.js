@@ -43,8 +43,10 @@ const selectorNumero = (columna) => {
       break;
   }
 
-  if (numeros.includes(numero)) {
-    // Si el número ya fue generado, llamamos a selectorNumero nuevamente
+  if (numero === 90) {
+    console.log("Salio el 90");
+    selectorNumero();
+  } else if (numeros.includes(numero)) {
     return numero + 1;
   } else {
     // Si el número es nuevo, lo almacenamos en el array y lo devolvemos
@@ -130,7 +132,6 @@ const llenarTercerFila = () => {
       columnasUtilizadas.push(columna);
       numerosUtilizados.push(numero);
       fila3.children[columna - 1].innerText = numero;
-      console.log(`Se genero el numero ${numero} en la columna ${columna}`);
       fila3.children[columna - 1].classList.add("active");
     }
   }
