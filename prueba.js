@@ -39,16 +39,12 @@ const selectorNumero = (columna) => {
       numero = Math.floor(Math.random() * 9) + 70;
       break;
     default:
-      numero = Math.floor(Math.random() * 11) + 80;
+      numero = Math.floor(Math.random() * 10) + 81;
       break;
   }
 
-  if (numero === 90) {
-    console.log("Salio el 90");
-    return selectorNumero(columna);
-  } else if (numeros.includes(numero)) {
-    console.log(`Le sumo 1 a ${numero}`);
-    return numero + 1; // CAMBIAR porque si numero + 1 no se puede usar igual lo coloca. Puede salir mayor al rango de columna. Cambiar la logia en las funciones especificas de fila no aca.
+  if (numeros.includes(numero)) {
+    return selectorNumero(columna); // CAMBIAR porque si numero + 1 no se puede usar igual lo coloca. Puede salir mayor al rango de columna. Cambiar la logia en las funciones especificas de fila no aca.
   } else {
     // Si el número es nuevo, lo almacenamos en el array y lo devolvemos
     numeros.push(numero);
@@ -110,31 +106,35 @@ const llenarSegundaFila = () => {
 // Tercer fila
 
 const llenarTercerFila = () => {
-  let columnasUtilizadas = [];
-  let numerosUtilizados = [];
+  try {
+    let columnasUtilizadas = [];
+    let numerosUtilizados = [];
 
-  while (numerosUtilizados.length < 5) {
-    if (columnasUtilizadas.length >= 5) {
-      break;
+    while (numerosUtilizados.length < 5) {
+      if (columnasUtilizadas.length >= 5) {
+        break;
+      }
+
+      let columna = selectorColumna();
+      let numero = selectorNumero(columna);
+
+      let numeroFila1 = fila1.children[columna - 1].innerText;
+      let numeroFila2 = fila2.children[columna - 1].innerText;
+
+      if (
+        !columnasUtilizadas.includes(columna) &&
+        !numerosUtilizados.includes(numero) &&
+        numero >= numeroFila1 &&
+        numero >= numeroFila2
+      ) {
+        columnasUtilizadas.push(columna);
+        numerosUtilizados.push(numero);
+        fila3.children[columna - 1].innerText = numero;
+        fila3.children[columna - 1].classList.add("active");
+      }
     }
-
-    let columna = selectorColumna();
-    let numero = selectorNumero(columna);
-
-    let numeroFila1 = fila1.children[columna - 1].innerText;
-    let numeroFila2 = fila2.children[columna - 1].innerText;
-
-    if (
-      !columnasUtilizadas.includes(columna) &&
-      !numerosUtilizados.includes(numero) &&
-      numero >= numeroFila1 &&
-      numero >= numeroFila2
-    ) {
-      columnasUtilizadas.push(columna);
-      numerosUtilizados.push(numero);
-      fila3.children[columna - 1].innerText = numero;
-      fila3.children[columna - 1].classList.add("active");
-    }
+  } catch (error) {
+    window.location.reload();
   }
 };
 
@@ -144,6 +144,6 @@ const generarCarton = () => {
   llenarTercerFila();
 };
 
-generarCarton();
-
 // Nuevo carton.
+
+generarCarton();
