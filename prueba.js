@@ -45,21 +45,20 @@ const selectorNumero = (columna) => {
 
   if (numeros.includes(numero)) {
     // Si el número ya fue generado, llamamos a selectorNumero nuevamente
-    return selectorNumero(columna);
+    return numero + 1;
   } else {
     // Si el número es nuevo, lo almacenamos en el array y lo devolvemos
     numeros.push(numero);
     return numero;
   }
 };
+let columnasUtilizadas = [];
+let numerosUtilizados = [];
 
 const llenarPrimerFila = () => {
-  let columnasUtilizadas = [];
-  let numerosUtilizados = [];
-
   while (numerosUtilizados.length < 5) {
     if (columnasUtilizadas.length >= 5) {
-      break; // Detener el bucle si ya se han utilizado 5 columnas únicas
+      break;
     }
 
     let columna = selectorColumna();
@@ -79,10 +78,9 @@ const llenarPrimerFila = () => {
 
 // Segunda fila
 
-const llenarSegundaFila = (fila1, numerosUtilizadosFila1) => {
+const llenarSegundaFila = () => {
   let columnasUtilizadas = [];
-  let numerosUtilizados = [...numerosUtilizadosFila1];
-
+  let numerosUtilizados = [];
   while (numerosUtilizados.length < 5) {
     if (columnasUtilizadas.length >= 5) {
       break;
@@ -108,17 +106,9 @@ const llenarSegundaFila = (fila1, numerosUtilizadosFila1) => {
 
 // Tercer fila
 
-const llenarTercerFila = (
-  fila1,
-  fila2,
-  numerosUtilizadosFila1,
-  numerosUtilizadosFila2
-) => {
+const llenarTercerFila = () => {
   let columnasUtilizadas = [];
-  let numerosUtilizados = [
-    ...numerosUtilizadosFila1,
-    ...numerosUtilizadosFila2,
-  ];
+  let numerosUtilizados = [];
 
   while (numerosUtilizados.length < 5) {
     if (columnasUtilizadas.length >= 5) {
@@ -127,7 +117,6 @@ const llenarTercerFila = (
 
     let columna = selectorColumna();
     let numero = selectorNumero(columna);
-    console.log(`Tercer fila, columna:${columna}, numero: ${numero}`);
 
     let numeroFila1 = fila1.children[columna - 1].innerText;
     let numeroFila2 = fila2.children[columna - 1].innerText;
@@ -135,31 +124,22 @@ const llenarTercerFila = (
     if (
       !columnasUtilizadas.includes(columna) &&
       !numerosUtilizados.includes(numero) &&
-      !numerosUtilizadosFila2.includes(numero) &&
-      numero >= numeroFila2 &&
-      numero >= numeroFila1
+      numero >= numeroFila1 &&
+      numero >= numeroFila2
     ) {
       columnasUtilizadas.push(columna);
       numerosUtilizados.push(numero);
       fila3.children[columna - 1].innerText = numero;
+      console.log(`Se genero el numero ${numero} en la columna ${columna}`);
       fila3.children[columna - 1].classList.add("active");
     }
   }
 };
 
 const generarCarton = () => {
-  let numerosUtilizadosFila1 = [];
-  llenarPrimerFila(numerosUtilizadosFila1);
-
-  let numerosUtilizadosFila2 = [];
-  llenarSegundaFila(fila1, numerosUtilizadosFila2);
-
-  llenarTercerFila(
-    fila1,
-    fila2,
-    numerosUtilizadosFila1,
-    numerosUtilizadosFila2
-  );
+  llenarPrimerFila();
+  llenarSegundaFila();
+  llenarTercerFila();
 };
 
 generarCarton();
