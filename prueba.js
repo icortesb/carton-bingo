@@ -1,4 +1,3 @@
-// Buscamos los elementos del DOM que vamos a utilizar
 // Filas
 let fila1 = document.querySelector(".fila1");
 let fila2 = document.querySelector(".fila2");
@@ -97,7 +96,6 @@ const llenarSegundaFila = (fila1, numerosUtilizadosFila1) => {
     if (
       !columnasUtilizadas.includes(columna) &&
       !numerosUtilizados.includes(numero) &&
-      !numerosUtilizadosFila1.includes(numero) &&
       numero >= numeroFila1
     ) {
       columnasUtilizadas.push(columna);
