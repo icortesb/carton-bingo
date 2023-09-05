@@ -1,79 +1,14 @@
-// Seleccionar la columna
+// Filas
+let fila1 = document.querySelector(".fila1");
+let fila2 = document.querySelector(".fila2");
+let fila3 = document.querySelector(".fila3");
+
+// Boton
+let boton = document.getElementById("nuevo-carton");
 
 const selectorColumna = () => {
   return Math.floor(Math.random() * 9) + 1;
 };
-
-// Llenar fila
-
-const llenarFila = (num_fila) => {
-  const columna = selectorColumna();
-  const fila = document.querySelector(`.fila${num_fila}`);
-  const casilla = fila.children[columna - 1];
-
-  // Si la casilla esta vacia se llena. Sino se vuelve a intentar.
-
-  if (casilla.innerText === "") {
-    casilla.innerText = selectorNumero(columna);
-    casilla.classList.add("active");
-  } else {
-    llenarFila(num_fila);
-  }
-};
-const llenarCarton = () => {
-  llenarFila(1);
-  llenarFila(2);
-  llenarFila(3);
-};
-
-// Click en casilla activa para pintarla
-
-const casillaActiva = document.querySelectorAll(".active");
-
-const pintarCasilla = (casilla) => {
-  if (casilla.innerText !== "") {
-    casilla.classList.add("pintada");
-  }
-};
-
-casillaActiva.forEach((casilla) => {
-  casilla.addEventListener("click", () => {
-    pintarCasilla(casilla);
-  });
-});
-
-// Vaciar carton
-
-const nuevoCarton = () => {
-  numeros = [];
-  for (let i = 1; i <= 5; i++) {
-    llenarCarton();
-  }
-
-  const casillasActivas = document.querySelectorAll(".active");
-  casillasActivas.forEach((casilla) => {
-    // Primero, removemos cualquier evento de clic existente
-    casilla.removeEventListener("click", pintarCasilla);
-
-    // Luego, verificamos si la casilla está vacía antes de agregar el nuevo evento
-    if (casilla.innerText !== "") {
-      casilla.addEventListener("click", () => {
-        pintarCasilla(casilla);
-      });
-    }
-  });
-};
-
-const vaciarCarton = () => {
-  const casillas = document.querySelectorAll(".celda");
-  casillas.forEach((casilla) => {
-    casilla.innerText = "";
-    casilla.classList.remove("active", "pintada");
-    casilla.removeEventListener("click", pintarCasilla);
-  });
-};
-
-// Generador de numeros a colocar
 
 let numeros = [];
 const selectorNumero = (columna) => {
@@ -104,30 +39,115 @@ const selectorNumero = (columna) => {
       numero = Math.floor(Math.random() * 9) + 70;
       break;
     default:
-      numero = Math.floor(Math.random() * 11) + 80;
+      numero = Math.floor(Math.random() * 10) + 81;
       break;
   }
 
   if (numeros.includes(numero)) {
-    // Si el número ya fue generado, llamamos a selectorNumero nuevamente
-    return selectorNumero(columna);
+    return selectorNumero(columna); // CAMBIAR porque si numero + 1 no se puede usar igual lo coloca. Puede salir mayor al rango de columna. Cambiar la logia en las funciones especificas de fila no aca.
   } else {
     // Si el número es nuevo, lo almacenamos en el array y lo devolvemos
     numeros.push(numero);
     return numero;
   }
 };
+let columnasUtilizadas = [];
+let numerosUtilizados = [];
 
-// Inicia con un carton generado, y cuando se recarga la pagina se vuelve a generar otro.
+const llenarPrimerFila = () => {
+  while (numerosUtilizados.length < 5) {
+    if (columnasUtilizadas.length >= 5) {
+      break;
+    }
 
-nuevoCarton();
+    let columna = selectorColumna();
+    let numero = selectorNumero(columna);
 
-// Boton nuevo carton
+    if (
+      !columnasUtilizadas.includes(columna) &&
+      !numerosUtilizados.includes(numero)
+    ) {
+      columnasUtilizadas.push(columna);
+      numerosUtilizados.push(numero);
+      fila1.children[columna - 1].innerText = numero;
+      fila1.children[columna - 1].classList.add("active");
+    }
+  }
+};
 
-let btnNuevoCarton = document.getElementById("nuevo-carton");
+// Segunda fila
 
-btnNuevoCarton.addEventListener("click", () => {
-  console.log("Click");
-  vaciarCarton();
-  nuevoCarton();
+const llenarSegundaFila = () => {
+  let columnasUtilizadas = [];
+  let numerosUtilizados = [];
+  while (numerosUtilizados.length < 5) {
+    if (columnasUtilizadas.length >= 5) {
+      break;
+    }
+
+    let columna = selectorColumna();
+    let numero = selectorNumero(columna);
+
+    let numeroFila1 = fila1.children[columna - 1].innerText;
+
+    if (
+      !columnasUtilizadas.includes(columna) &&
+      !numerosUtilizados.includes(numero) &&
+      numero >= numeroFila1
+    ) {
+      columnasUtilizadas.push(columna);
+      numerosUtilizados.push(numero);
+      fila2.children[columna - 1].innerText = numero;
+      fila2.children[columna - 1].classList.add("active");
+    }
+  }
+};
+
+// Tercer fila
+
+const llenarTercerFila = () => {
+  try {
+    let columnasUtilizadas = [];
+    let numerosUtilizados = [];
+
+    while (numerosUtilizados.length < 5) {
+      if (columnasUtilizadas.length >= 5) {
+        break;
+      }
+
+      let columna = selectorColumna();
+      let numero = selectorNumero(columna);
+
+      let numeroFila1 = fila1.children[columna - 1].innerText;
+      let numeroFila2 = fila2.children[columna - 1].innerText;
+
+      if (
+        !columnasUtilizadas.includes(columna) &&
+        !numerosUtilizados.includes(numero) &&
+        numero >= numeroFila1 &&
+        numero >= numeroFila2
+      ) {
+        columnasUtilizadas.push(columna);
+        numerosUtilizados.push(numero);
+        fila3.children[columna - 1].innerText = numero;
+        fila3.children[columna - 1].classList.add("active");
+      }
+    }
+  } catch (error) {
+    window.location.reload();
+  }
+};
+
+const generarCarton = () => {
+  llenarPrimerFila();
+  llenarSegundaFila();
+  llenarTercerFila();
+};
+
+// Nuevo carton.
+
+generarCarton();
+
+boton.addEventListener("click", () => {
+  window.location.reload();
 });
