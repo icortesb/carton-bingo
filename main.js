@@ -151,3 +151,44 @@ generarCarton();
 boton.addEventListener("click", () => {
   window.location.reload();
 });
+
+// Calcular cartones posibles
+
+// Vamos a calcular cantidad de combinaciones posibles por fila y multiplicarlas entre si llenando unicamente 5 casilleros por fila y asumiendo que quedan 4 sin pintar.
+
+// Calculamos el coeficiente binomial C(9, 3) por fila. 9 es el total de numeros posibles y 3 es la cantidad de numeros que elegimos. Por la ultima fila, sera C(10, 3) para sumar el 90.
+
+
+const calcularFactorial = (n) => {
+  let factorial = 1;
+  for (let i = 1; i <= n; i++) {
+    factorial = factorial * i;
+  }
+  return factorial;
+};
+
+
+const coeficienteBinomial = (n, k) => {
+  return calcularFactorial(n) / (calcularFactorial(k) * calcularFactorial(n - k));
+};
+
+
+let resultado = 1;
+for (i = 0; i < 4; i++) {
+  resultado = resultado * coeficienteBinomial(9, 3);
+}
+resultado = resultado * coeficienteBinomial(10, 3);
+console.log(resultado);
+
+document.getElementById("cartones-posibles").innerText = `La cantidad de cartones posibles es ${resultado}.`;
+
+// Calcular la probabilidad de adivinar los 15 numeros desordenados en 40 bolas
+
+const calcularProbabilidad = (k, n, p) => {
+  return (coeficienteBinomial(n, k) * Math.pow(p, k) * Math.pow(1 - p, n - k));
+};
+
+let probabilidad = calcularProbabilidad(15, 40, 1 / 90);
+probabilidad = probabilidad.toFixed(20);
+
+document.getElementById("probabilidad").innerText = `La probabilidad de adivinar los 15 numeros en 40 bolas es de ${probabilidad}.`;
